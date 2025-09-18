@@ -1,0 +1,43 @@
+{
+  "name": "lynx-tailwind-starter",
+  "version": "1.0.0",
+  "description": "A starter template for Lynx applications with Tailwind CSS integration",
+  "keywords": [
+    "lynx",
+    "tailwind",
+    "css",
+    "mobile",
+    "react",
+    "starter",
+    "template"
+  ],
+  "type": "module",
+  "packageManager": "pnpm@10.12.4",
+  "scripts": {
+    "build": "rspeedy build",
+    "dev": "rspeedy dev",
+    "format": "prettier --write .",
+    "preview": "rspeedy preview"
+  },
+  "dependencies": {
+    "@lynx-js/react": "^0.106.5",
+    "@lynx-js/tailwind-preset-canary": "^0.1.2",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "@lynx-js/qrcode-rsbuild-plugin": "^0.4.1",
+    "@lynx-js/react-rsbuild-plugin": "^0.10.14",
+    "@lynx-js/rspeedy": "^0.11.2",
+    "@lynx-js/types": "^3.4.11",
+    "@types/react": "^18.3.24",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "postcss-loader": "^8.2.0",
+    "prettier": "^3.6.2",
+    "typescript": "~5.7.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}
