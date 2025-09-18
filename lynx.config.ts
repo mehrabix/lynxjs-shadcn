@@ -13,17 +13,4 @@ export default defineConfig({
     }),
     pluginReactLynx(),
   ],
-  environments: {
-    web: {
-      output: {
-        distPath: {
-          root: 'dist/web',
-        },
-      },
-      html: {
-        template: './src/index.html',
-        inject: true,
-      },
-    },
-  },
 });
