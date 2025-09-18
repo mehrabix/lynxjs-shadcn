@@ -17,24 +17,37 @@
     "build": "rspeedy build",
     "dev": "rspeedy dev",
     "format": "prettier --write .",
-    "preview": "rspeedy preview"
+    "preview": "rspeedy preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@lynx-js/react": "0.113.0",
     "@lynx-js/tailwind-preset-canary": "0.4.0-canary-20250918-db58f3c8",
+    "clsx": "^2.1.1",
+    "react": "^19.1.1",
+    "react-router": "^6.30.1",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
     "@lynx-js/qrcode-rsbuild-plugin": "0.4.1",
     "@lynx-js/react-rsbuild-plugin": "0.10.14",
     "@lynx-js/rspeedy": "0.11.2",
+    "@lynx-js/testing-environment": "^0.1.7",
     "@lynx-js/types": "3.4.11",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.24",
     "autoprefixer": "^10.4.21",
+    "jsdom": "^27.0.0",
     "postcss": "^8.5.6",
     "postcss-loader": "^8.2.0",
     "prettier": "^3.6.2",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=18"
