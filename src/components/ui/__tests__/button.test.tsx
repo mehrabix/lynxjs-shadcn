@@ -5,7 +5,7 @@ import { Button } from '../button.js';
 
 // Mock the cn utility function
 vi.mock('../lib/utils.js', () => ({
-  cn: (...classes: any[]) => classes.filter(Boolean).join(' ')
+  cn: (...classes: any[]) => classes.filter(Boolean).join(' '),
 }));
 
 // Helper function to simulate Lynx bindtap events
@@ -26,21 +26,25 @@ describe('Button Component', () => {
       const { container } = render(
         <Button>
           <text>Click me</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       expect(button).toBeInTheDocument();
-      expect(button).toHaveClass('inline-flex', 'items-center', 'justify-center');
+      expect(button).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
     });
 
     it('should render button text correctly', () => {
       const { getByText } = render(
         <Button>
           <text>Test Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       expect(getByText('Test Button')).toBeInTheDocument();
     });
 
@@ -48,28 +52,35 @@ describe('Button Component', () => {
       const { container } = render(
         <Button className="custom-class">
           <text>Custom</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       expect(button).toHaveClass('custom-class');
     });
   });
 
   describe('Button Variants', () => {
-    const variants = ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'] as const;
+    const variants = [
+      'default',
+      'destructive',
+      'outline',
+      'secondary',
+      'ghost',
+      'link',
+    ] as const;
 
-    variants.forEach(variant => {
+    variants.forEach((variant) => {
       it(`should render ${variant} variant correctly`, () => {
         const { container } = render(
           <Button variant={variant}>
             <text>{variant} Button</text>
-          </Button>
+          </Button>,
         );
-        
+
         const button = container.querySelector('view');
         expect(button).toBeInTheDocument();
-        
+
         // Check for variant-specific classes
         switch (variant) {
           case 'default':
@@ -90,7 +101,11 @@ describe('Button Component', () => {
           case 'link':
             expect(button).not.toHaveClass('underline');
             const textElement = container.querySelector('text');
-            expect(textElement).toHaveClass('text-primary', 'dark:text-primary', 'underline');
+            expect(textElement).toHaveClass(
+              'text-primary',
+              'dark:text-primary',
+              'underline',
+            );
             break;
         }
       });
@@ -100,17 +115,17 @@ describe('Button Component', () => {
   describe('Button Sizes', () => {
     const sizes = ['sm', 'default', 'lg', 'icon'] as const;
 
-    sizes.forEach(size => {
+    sizes.forEach((size) => {
       it(`should render ${size} size correctly`, () => {
         const { container } = render(
           <Button size={size}>
             <text>{size} Button</text>
-          </Button>
+          </Button>,
         );
-        
+
         const button = container.querySelector('view');
         expect(button).toBeInTheDocument();
-        
+
         // Check for size-specific classes
         switch (size) {
           case 'sm':
@@ -136,43 +151,43 @@ describe('Button Component', () => {
       const { container } = render(
         <Button onPress={mockOnPress}>
           <text>Click me</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       expect(button).toBeInTheDocument();
-      
+
       // Simulate Lynx bindtap event
       simulateLynxTap(mockOnPress);
-      
+
       expect(mockOnPress).toHaveBeenCalledTimes(1);
     });
 
-           it('should not call onPress when button is disabled', () => {
-             const mockOnPress = vi.fn();
-             const { container } = render(
-               <Button disabled={true} onPress={mockOnPress}>
-                 <text>Disabled</text>
-               </Button>
-             );
-             
-             const button = container.querySelector('view');
-             expect(button).toBeInTheDocument();
-             
-             // Simulate Lynx bindtap event (should not be called when disabled)
-             // When disabled, bindtap is set to empty function, so onPress won't be called
-             simulateLynxTap(mockOnPress, true);
-             
-             expect(mockOnPress).not.toHaveBeenCalled();
-           });
+    it('should not call onPress when button is disabled', () => {
+      const mockOnPress = vi.fn();
+      const { container } = render(
+        <Button disabled={true} onPress={mockOnPress}>
+          <text>Disabled</text>
+        </Button>,
+      );
+
+      const button = container.querySelector('view');
+      expect(button).toBeInTheDocument();
+
+      // Simulate Lynx bindtap event (should not be called when disabled)
+      // When disabled, bindtap is set to empty function, so onPress won't be called
+      simulateLynxTap(mockOnPress, true);
+
+      expect(mockOnPress).not.toHaveBeenCalled();
+    });
 
     it('should apply disabled styles when disabled', () => {
       const { container } = render(
         <Button disabled={true}>
           <text>Disabled</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       expect(button).toHaveClass('pointer-events-none', 'opacity-50');
     });
@@ -185,12 +200,16 @@ describe('Button Component', () => {
           <view className="custom-element" bindtap={() => {}}>
             <text>Custom Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
+
       const wrapperElement = container.querySelector('view');
       expect(wrapperElement).toBeInTheDocument();
-      expect(wrapperElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
+      expect(wrapperElement).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
     });
 
     it('should apply button styles to child element when asChild is true', () => {
@@ -199,11 +218,16 @@ describe('Button Component', () => {
           <view className="custom-element" bindtap={() => {}}>
             <text>Custom Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
+
       const wrapperElement = container.querySelector('view');
-      expect(wrapperElement).toHaveClass('border', 'border-slate-200', 'h-11', 'px-8');
+      expect(wrapperElement).toHaveClass(
+        'border',
+        'border-slate-200',
+        'h-11',
+        'px-8',
+      );
     });
 
     it('should handle child element click events', () => {
@@ -213,15 +237,15 @@ describe('Button Component', () => {
           <view className="custom-element" bindtap={mockChildClick}>
             <text>Custom Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
+
       const wrapperElement = container.querySelector('view');
       expect(wrapperElement).toBeInTheDocument();
-      
+
       // Simulate Lynx bindtap event
       simulateLynxTap(mockChildClick);
-      
+
       expect(mockChildClick).toHaveBeenCalledTimes(1);
     });
   });
@@ -231,9 +255,9 @@ describe('Button Component', () => {
       const { container } = render(
         <Button variant="default">
           <text>Default Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const textElement = container.querySelector('text');
       expect(textElement).toHaveClass('text-white', 'dark:text-black');
     });
@@ -242,9 +266,9 @@ describe('Button Component', () => {
       const { container } = render(
         <Button variant="destructive">
           <text>Destructive Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const textElement = container.querySelector('text');
       expect(textElement).toHaveClass('text-white', 'dark:text-white');
     });
@@ -253,9 +277,9 @@ describe('Button Component', () => {
       const { container } = render(
         <Button variant="outline">
           <text>Outline Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const textElement = container.querySelector('text');
       expect(textElement).toHaveClass('text-black', 'dark:text-white');
     });
@@ -265,23 +289,23 @@ describe('Button Component', () => {
     it('should handle multiple props together', () => {
       const mockOnPress = vi.fn();
       const { container } = render(
-        <Button 
-          variant="destructive" 
-          size="lg" 
+        <Button
+          variant="destructive"
+          size="lg"
           disabled={false}
           className="custom-class"
           onPress={mockOnPress}
         >
           <text>Complex Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       const textElement = container.querySelector('text');
-      
+
       expect(button).toHaveClass('bg-red-500', 'h-11', 'px-8', 'custom-class');
       expect(textElement).toHaveClass('text-white', 'dark:text-white');
-      
+
       // Simulate Lynx bindtap event
       simulateLynxTap(mockOnPress);
       expect(mockOnPress).toHaveBeenCalledTimes(1);
@@ -289,18 +313,24 @@ describe('Button Component', () => {
 
     it('should handle disabled state with custom styling', () => {
       const { container } = render(
-        <Button 
-          variant="outline" 
-          size="sm" 
+        <Button
+          variant="outline"
+          size="sm"
           disabled={true}
           className="custom-disabled"
         >
           <text>Disabled Custom</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
-      expect(button).toHaveClass('border', 'border-slate-200', 'h-9', 'px-3', 'custom-disabled');
+      expect(button).toHaveClass(
+        'border',
+        'border-slate-200',
+        'h-9',
+        'px-3',
+        'custom-disabled',
+      );
       expect(button).toHaveClass('pointer-events-none', 'opacity-50');
     });
   });
@@ -310,9 +340,9 @@ describe('Button Component', () => {
       const { container } = render(
         <Button>
           <text>Focusable Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       expect(button).toHaveClass('focus:outline-none', 'focus:ring-2');
     });
@@ -322,15 +352,15 @@ describe('Button Component', () => {
       const { container } = render(
         <Button onPress={mockOnPress}>
           <text>Keyboard Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
-      
+
       // Simulate keyboard events
       fireEvent.keyDown(button!, { key: 'Enter' });
       fireEvent.keyUp(button!, { key: 'Enter' });
-      
+
       // Note: Lynx handles touch events primarily, but we test the structure
       expect(button).toBeInTheDocument();
     });
@@ -347,12 +377,12 @@ describe('Button Component', () => {
       const { container } = render(
         <Button onPress={undefined}>
           <text>No Handler</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       expect(button).toBeInTheDocument();
-      
+
       // Should not throw when clicked
       expect(() => fireEvent.click(button!)).not.toThrow();
     });
@@ -362,9 +392,9 @@ describe('Button Component', () => {
         <Button>
           <text>First</text>
           <text>Second</text>
-        </Button>
+        </Button>,
       );
-      
+
       const textElements = container.querySelectorAll('text');
       expect(textElements).toHaveLength(3); // Includes the wrapper text element
       expect(textElements[1]).toHaveTextContent('First');
@@ -377,26 +407,33 @@ describe('Button Component', () => {
       const { container } = render(
         <Button variant="default">
           <text>Dark Mode Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       const textElement = container.querySelector('text');
-      
+
       expect(button).toHaveClass('dark:bg-slate-50');
       expect(textElement).toHaveClass('dark:text-black');
     });
 
     it('should handle dark mode for all variants', () => {
-      const variants = ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'] as const;
-      
-      variants.forEach(variant => {
+      const variants = [
+        'default',
+        'destructive',
+        'outline',
+        'secondary',
+        'ghost',
+        'link',
+      ] as const;
+
+      variants.forEach((variant) => {
         const { container } = render(
           <Button variant={variant}>
             <text>{variant} Dark</text>
-          </Button>
+          </Button>,
         );
-        
+
         const button = container.querySelector('view');
         expect(button).toHaveClass('dark:focus:ring-slate-300');
       });

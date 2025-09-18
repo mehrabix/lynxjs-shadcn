@@ -45,7 +45,8 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       transitionProperty: {
-        'colors': 'color, background-color, border-color, text-decoration-color, fill, stroke',
+        colors:
+          'color, background-color, border-color, text-decoration-color, fill, stroke',
       },
     },
   },

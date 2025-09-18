@@ -62,14 +62,14 @@ import { Button } from './components/ui';
 
 #### Button Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link'` | `'default'` | The visual style variant of the button |
-| `size` | `'default' \| 'sm' \| 'lg' \| 'icon'` | `'default'` | The size of the button |
-| `asChild` | `boolean` | `false` | Render as a different component (polymorphic) |
-| `className` | `string` | - | Additional CSS classes |
-| `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `onPress` | `() => void` | - | Function to call when button is pressed |
+| Prop        | Type                                                                          | Default     | Description                                   |
+| ----------- | ----------------------------------------------------------------------------- | ----------- | --------------------------------------------- |
+| `variant`   | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link'` | `'default'` | The visual style variant of the button        |
+| `size`      | `'default' \| 'sm' \| 'lg' \| 'icon'`                                         | `'default'` | The size of the button                        |
+| `asChild`   | `boolean`                                                                     | `false`     | Render as a different component (polymorphic) |
+| `className` | `string`                                                                      | -           | Additional CSS classes                        |
+| `disabled`  | `boolean`                                                                     | `false`     | Whether the button is disabled                |
+| `onPress`   | `() => void`                                                                  | -           | Function to call when button is pressed       |
 
 ## Exact shadcn/ui Compatibility
 

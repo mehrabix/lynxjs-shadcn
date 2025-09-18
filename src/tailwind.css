@@ -91,7 +91,9 @@
   }
 
   .focus\:ring-offset-2:focus {
-    box-shadow: 0 0 0 2px hsl(var(--ring)), 0 0 0 4px hsl(var(--background));
+    box-shadow:
+      0 0 0 2px hsl(var(--ring)),
+      0 0 0 4px hsl(var(--background));
   }
 
   /* Dark mode focus states */

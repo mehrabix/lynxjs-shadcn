@@ -5,11 +5,15 @@ import { Button } from '../button.js';
 
 // Mock the cn utility function
 vi.mock('../../lib/utils.js', () => ({
-  cn: (...classes: any[]) => classes.filter(Boolean).join(' ')
+  cn: (...classes: any[]) => classes.filter(Boolean).join(' '),
 }));
 
 // Helper function to simulate Lynx bindtap events
-const simulateLynxTap = (onPress?: (...args: any[]) => void, disabled = false, ...args: any[]) => {
+const simulateLynxTap = (
+  onPress?: (...args: any[]) => void,
+  disabled = false,
+  ...args: any[]
+) => {
   if (onPress && !disabled) {
     onPress(...args);
   }
@@ -26,9 +30,9 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={true}>
           <text>Disabled Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       expect(button).toHaveClass('pointer-events-none', 'opacity-50');
     });
@@ -38,25 +42,32 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={true} onPress={mockOnPress}>
           <text>Disabled Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       simulateLynxTap(mockOnPress, true);
-      
+
       expect(mockOnPress).not.toHaveBeenCalled();
     });
 
     it('should apply disabled styles to all variants', () => {
-      const variants = ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'] as const;
-      
-      variants.forEach(variant => {
+      const variants = [
+        'default',
+        'destructive',
+        'outline',
+        'secondary',
+        'ghost',
+        'link',
+      ] as const;
+
+      variants.forEach((variant) => {
         const { container } = render(
           <Button variant={variant} disabled={true}>
             <text>Disabled {variant}</text>
-          </Button>
+          </Button>,
         );
-        
+
         const button = container.querySelector('view');
         expect(button).toHaveClass('pointer-events-none', 'opacity-50');
       });
@@ -64,14 +75,14 @@ describe('Button Disabled States and Loading Behavior', () => {
 
     it('should apply disabled styles to all sizes', () => {
       const sizes = ['sm', 'default', 'lg', 'icon'] as const;
-      
-      sizes.forEach(size => {
+
+      sizes.forEach((size) => {
         const { container } = render(
           <Button size={size} disabled={true}>
             <text>Disabled {size}</text>
-          </Button>
+          </Button>,
         );
-        
+
         const button = container.querySelector('view');
         expect(button).toHaveClass('pointer-events-none', 'opacity-50');
       });
@@ -81,11 +92,15 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={true} className="custom-disabled">
           <text>Custom Disabled</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
-      expect(button).toHaveClass('custom-disabled', 'pointer-events-none', 'opacity-50');
+      expect(button).toHaveClass(
+        'custom-disabled',
+        'pointer-events-none',
+        'opacity-50',
+      );
     });
 
     it('should handle disabled state with asChild', () => {
@@ -94,10 +109,12 @@ describe('Button Disabled States and Loading Behavior', () => {
           <view className="disabled-child" bindtap={() => {}}>
             <text>Disabled Child</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const wrapperElement = container.querySelector('view[class*="inline-flex"]');
+
+      const wrapperElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       expect(wrapperElement).toHaveClass('pointer-events-none', 'opacity-50');
     });
   });
@@ -107,30 +124,34 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={true} className="opacity-50">
           <text>Please wait...</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
-      expect(button).toHaveClass('pointer-events-none', 'opacity-50', 'opacity-50');
+      expect(button).toHaveClass(
+        'pointer-events-none',
+        'opacity-50',
+        'opacity-50',
+      );
     });
 
     it('should simulate loading behavior with async onPress', async () => {
       const mockOnPress = vi.fn().mockImplementation(async () => {
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         return 'loaded';
       });
-      
+
       const { container } = render(
         <Button onPress={mockOnPress}>
           <text>Loading Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       simulateLynxTap(mockOnPress);
-      
+
       expect(mockOnPress).toHaveBeenCalledTimes(1);
-      
+
       // Wait for async operation
       await waitFor(() => {
         expect(mockOnPress).toHaveBeenCalledTimes(1);
@@ -142,12 +163,12 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={isLoading}>
           <text>{isLoading ? 'Please wait...' : 'Submit'}</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       const textElement = container.querySelector('text');
-      
+
       expect(button).toHaveClass('pointer-events-none', 'opacity-50');
       expect(textElement).toHaveTextContent('Please wait...');
     });
@@ -157,11 +178,15 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={isLoading} className={isLoading ? 'opacity-50' : ''}>
           <text>Loading Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
-      expect(button).toHaveClass('opacity-50', 'pointer-events-none', 'opacity-50');
+      expect(button).toHaveClass(
+        'opacity-50',
+        'pointer-events-none',
+        'opacity-50',
+      );
     });
   });
 
@@ -170,18 +195,18 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container, rerender } = render(
         <Button disabled={false}>
           <text>Enabled Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       let button = container.querySelector('view');
       expect(button).not.toHaveClass('pointer-events-none', 'opacity-50');
-      
+
       rerender(
         <Button disabled={true}>
           <text>Disabled Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       button = container.querySelector('view');
       expect(button).toHaveClass('pointer-events-none', 'opacity-50');
     });
@@ -190,18 +215,18 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container, rerender } = render(
         <Button disabled={true}>
           <text>Disabled Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       let button = container.querySelector('view');
       expect(button).toHaveClass('pointer-events-none', 'opacity-50');
-      
+
       rerender(
         <Button disabled={false}>
           <text>Enabled Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       button = container.querySelector('view');
       expect(button).not.toHaveClass('pointer-events-none', 'opacity-50');
     });
@@ -210,17 +235,17 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container, rerender } = render(
         <Button disabled={false}>
           <text>Rapid Changes</text>
-        </Button>
+        </Button>,
       );
-      
+
       // Rapidly change disabled state
       for (let i = 0; i < 10; i++) {
         rerender(
           <Button disabled={i % 2 === 0}>
             <text>Rapid Changes {i}</text>
-          </Button>
+          </Button>,
         );
-        
+
         const button = container.querySelector('view');
         if (i % 2 === 0) {
           expect(button).toHaveClass('pointer-events-none', 'opacity-50');
@@ -237,9 +262,9 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={isLoading}>
           <text>{isLoading ? '⏳ Loading...' : 'Submit'}</text>
-        </Button>
+        </Button>,
       );
-      
+
       const textElement = container.querySelector('text');
       expect(textElement).toHaveTextContent('⏳ Loading...');
     });
@@ -250,9 +275,9 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={isLoading}>
           <text>{isLoading ? `Loading ${progress}%...` : 'Complete'}</text>
-        </Button>
+        </Button>,
       );
-      
+
       const textElement = container.querySelector('text');
       expect(textElement).toHaveTextContent('Loading 50%...');
     });
@@ -261,21 +286,21 @@ describe('Button Disabled States and Loading Behavior', () => {
       const states = [
         { loading: false, text: 'Submit' },
         { loading: true, text: 'Please wait...' },
-        { loading: false, text: 'Submitted!' }
+        { loading: false, text: 'Submitted!' },
       ];
-      
+
       states.forEach((state, index) => {
         const { container } = render(
           <Button disabled={state.loading}>
             <text>{state.text}</text>
-          </Button>
+          </Button>,
         );
-        
+
         const button = container.querySelector('view');
         const textElement = container.querySelector('text');
-        
+
         expect(textElement).toHaveTextContent(state.text);
-        
+
         if (state.loading) {
           expect(button).toHaveClass('pointer-events-none', 'opacity-50');
         } else {
@@ -291,13 +316,17 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={hasError} variant="destructive">
           <text>{hasError ? 'Error occurred' : 'Submit'}</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       const textElement = container.querySelector('text');
-      
-      expect(button).toHaveClass('pointer-events-none', 'opacity-50', 'bg-red-500');
+
+      expect(button).toHaveClass(
+        'pointer-events-none',
+        'opacity-50',
+        'bg-red-500',
+      );
       expect(textElement).toHaveTextContent('Error occurred');
     });
 
@@ -307,12 +336,12 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={hasError && !canRetry}>
           <text>{hasError ? (canRetry ? 'Retry' : 'Error') : 'Submit'}</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       const textElement = container.querySelector('text');
-      
+
       expect(button).not.toHaveClass('pointer-events-none', 'opacity-50');
       expect(textElement).toHaveTextContent('Retry');
     });
@@ -323,9 +352,9 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={true}>
           <text>Disabled Focusable</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
       expect(button).toHaveClass('focus:outline-none', 'focus:ring-2');
     });
@@ -334,11 +363,11 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container } = render(
         <Button disabled={true}>
           <text>Disabled Keyboard</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view');
-      
+
       // Should not throw when keyboard events are fired
       expect(() => {
         fireEvent.keyDown(button!, { key: 'Enter' });
@@ -354,12 +383,14 @@ describe('Button Disabled States and Loading Behavior', () => {
           <text>Button {i}</text>
         </Button>
       ));
-      
+
       const { container } = render(<view>{buttons}</view>);
-      
-      const buttonElements = container.querySelectorAll('view[class*="inline-flex"]');
+
+      const buttonElements = container.querySelectorAll(
+        'view[class*="inline-flex"]',
+      );
       expect(buttonElements).toHaveLength(100);
-      
+
       buttonElements.forEach((element, index) => {
         if (index % 2 === 0) {
           expect(element).toHaveClass('pointer-events-none', 'opacity-50');
@@ -373,23 +404,23 @@ describe('Button Disabled States and Loading Behavior', () => {
       const { container, rerender } = render(
         <Button disabled={false}>
           <text>Rapid Disabled Changes</text>
-        </Button>
+        </Button>,
       );
-      
+
       const startTime = Date.now();
-      
+
       // Rapidly change disabled state
       for (let i = 0; i < 1000; i++) {
         rerender(
           <Button disabled={i % 2 === 0}>
             <text>Rapid Changes {i}</text>
-          </Button>
+          </Button>,
         );
       }
-      
+
       const endTime = Date.now();
       const duration = endTime - startTime;
-      
+
       // Should complete within reasonable time (less than 2 seconds)
       expect(duration).toBeLessThan(2000);
     });

@@ -5,11 +5,15 @@ import { Button } from '../button.js';
 
 // Mock the cn utility function
 vi.mock('../../lib/utils.js', () => ({
-  cn: (...classes: any[]) => classes.filter(Boolean).join(' ')
+  cn: (...classes: any[]) => classes.filter(Boolean).join(' '),
 }));
 
 // Helper function to simulate Lynx bindtap events
-const simulateLynxTap = (onPress?: (...args: any[]) => void, disabled = false, ...args: any[]) => {
+const simulateLynxTap = (
+  onPress?: (...args: any[]) => void,
+  disabled = false,
+  ...args: any[]
+) => {
   if (onPress && !disabled) {
     onPress(...args);
   }
@@ -28,10 +32,12 @@ describe('Button asChild Prop Functionality', () => {
           <view className="custom-element" bindtap={() => {}}>
             <text>Custom Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const wrapperElement = container.querySelector('view[class*="inline-flex"]');
+
+      const wrapperElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       expect(wrapperElement).toBeInTheDocument();
       expect(wrapperElement).toHaveTextContent('Custom Element');
     });
@@ -42,9 +48,9 @@ describe('Button asChild Prop Functionality', () => {
           <view className="custom-element" bindtap={() => {}}>
             <text>Custom Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
+
       // Should not have the default button structure
       const buttons = container.querySelectorAll('view[class*="inline-flex"]');
       expect(buttons).toHaveLength(1); // Only the custom element
@@ -54,12 +60,16 @@ describe('Button asChild Prop Functionality', () => {
       const { container } = render(
         <Button asChild={false}>
           <text>Default Button</text>
-        </Button>
+        </Button>,
       );
-      
+
       const button = container.querySelector('view[class*="inline-flex"]');
       expect(button).toBeInTheDocument();
-      expect(button).toHaveClass('inline-flex', 'items-center', 'justify-center');
+      expect(button).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
     });
   });
 
@@ -70,29 +80,53 @@ describe('Button asChild Prop Functionality', () => {
           <view className="custom-element" bindtap={() => {}}>
             <text>Styled Custom Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const wrapperElement = container.querySelector('view[class*="inline-flex"]');
-      expect(wrapperElement).toHaveClass('border', 'border-slate-200', 'h-11', 'px-8');
-      expect(wrapperElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
+
+      const wrapperElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
+      expect(wrapperElement).toHaveClass(
+        'border',
+        'border-slate-200',
+        'h-11',
+        'px-8',
+      );
+      expect(wrapperElement).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
     });
 
     it('should apply all variant styles to child element', () => {
-      const variants = ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'] as const;
-      
-      variants.forEach(variant => {
+      const variants = [
+        'default',
+        'destructive',
+        'outline',
+        'secondary',
+        'ghost',
+        'link',
+      ] as const;
+
+      variants.forEach((variant) => {
         const { container } = render(
           <Button asChild variant={variant}>
             <view className="custom-element" bindtap={() => {}}>
               <text>{variant} Custom</text>
             </view>
-          </Button>
+          </Button>,
         );
-        
-        const wrapperElement = container.querySelector('view[class*="inline-flex"]');
-        expect(wrapperElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
-        
+
+        const wrapperElement = container.querySelector(
+          'view[class*="inline-flex"]',
+        );
+        expect(wrapperElement).toHaveClass(
+          'inline-flex',
+          'items-center',
+          'justify-center',
+        );
+
         // Check variant-specific classes are applied
         switch (variant) {
           case 'default':
@@ -119,19 +153,25 @@ describe('Button asChild Prop Functionality', () => {
 
     it('should apply all size styles to child element', () => {
       const sizes = ['sm', 'default', 'lg', 'icon'] as const;
-      
-      sizes.forEach(size => {
+
+      sizes.forEach((size) => {
         const { container } = render(
           <Button asChild size={size}>
             <view className="custom-element" bindtap={() => {}}>
               <text>{size} Custom</text>
             </view>
-          </Button>
+          </Button>,
         );
-        
-        const wrapperElement = container.querySelector('view[class*="inline-flex"]');
-        expect(wrapperElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
-        
+
+        const wrapperElement = container.querySelector(
+          'view[class*="inline-flex"]',
+        );
+        expect(wrapperElement).toHaveClass(
+          'inline-flex',
+          'items-center',
+          'justify-center',
+        );
+
         // Check size-specific classes are applied
         switch (size) {
           case 'sm':
@@ -156,10 +196,12 @@ describe('Button asChild Prop Functionality', () => {
           <view className="custom-element" bindtap={() => {}}>
             <text>Custom Class Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const wrapperElement = container.querySelector('view[class*="inline-flex"]');
+
+      const wrapperElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       expect(wrapperElement).toHaveClass('custom-button-class');
     });
   });
@@ -172,30 +214,34 @@ describe('Button asChild Prop Functionality', () => {
           <view className="custom-element" bindtap={mockChildClick}>
             <text>Clickable Custom Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const wrapperElement = container.querySelector('view[class*="inline-flex"]');
+
+      const wrapperElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       simulateLynxTap(mockChildClick);
-      
+
       expect(mockChildClick).toHaveBeenCalledTimes(1);
     });
 
     it('should not interfere with child element events', () => {
       const mockChildClick = vi.fn();
       const mockButtonPress = vi.fn();
-      
+
       const { container } = render(
         <Button asChild onPress={mockButtonPress}>
           <view className="custom-element" bindtap={mockChildClick}>
             <text>Event Custom Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const wrapperElement = container.querySelector('view[class*="inline-flex"]');
+
+      const wrapperElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       simulateLynxTap(mockChildClick);
-      
+
       expect(mockChildClick).toHaveBeenCalledTimes(1);
       // Button onPress should not be called when asChild is used
       expect(mockButtonPress).not.toHaveBeenCalled();
@@ -204,7 +250,7 @@ describe('Button asChild Prop Functionality', () => {
     it('should handle multiple child elements', () => {
       const mockFirstClick = vi.fn();
       const mockSecondClick = vi.fn();
-      
+
       const { container } = render(
         <Button asChild>
           <view className="first-element" bindtap={mockFirstClick}>
@@ -213,15 +259,15 @@ describe('Button asChild Prop Functionality', () => {
           <view className="second-element" bindtap={mockSecondClick}>
             <text>Second Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
+
       const firstElement = container.querySelector('view.first-element');
       const secondElement = container.querySelector('view.second-element');
-      
+
       simulateLynxTap(mockFirstClick);
       simulateLynxTap(mockSecondClick);
-      
+
       expect(mockFirstClick).toHaveBeenCalledTimes(1);
       expect(mockSecondClick).toHaveBeenCalledTimes(1);
     });
@@ -236,12 +282,14 @@ describe('Button asChild Prop Functionality', () => {
               <text>Nested Element</text>
             </view>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const parentElement = container.querySelector('view[class*="inline-flex"]');
+
+      const parentElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       const childElement = container.querySelector('view.child-element');
-      
+
       expect(parentElement).toBeInTheDocument();
       expect(childElement).toBeInTheDocument();
       expect(parentElement).toHaveClass('bg-slate-100', 'h-11', 'px-8');
@@ -257,17 +305,23 @@ describe('Button asChild Prop Functionality', () => {
               <text>🎯</text>
             </view>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const complexElement = container.querySelector('view[class*="inline-flex"]');
+
+      const complexElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       const texts = container.querySelectorAll('text');
       const icon = container.querySelector('view.icon');
-      
+
       expect(complexElement).toBeInTheDocument();
       expect(texts).toHaveLength(3);
       expect(icon).toBeInTheDocument();
-      expect(complexElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
+      expect(complexElement).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
     });
 
     it('should handle child elements with different tag types', () => {
@@ -276,12 +330,16 @@ describe('Button asChild Prop Functionality', () => {
           <view className="view-element" bindtap={() => {}}>
             <text>View Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
+
       const viewElement = container.querySelector('view[class*="inline-flex"]');
       expect(viewElement).toBeInTheDocument();
-      expect(viewElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
+      expect(viewElement).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
     });
   });
 
@@ -292,10 +350,12 @@ describe('Button asChild Prop Functionality', () => {
           <view className="disabled-element" bindtap={() => {}}>
             <text>Disabled Custom Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const disabledElement = container.querySelector('view[class*="inline-flex"]');
+
+      const disabledElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       expect(disabledElement).toHaveClass('pointer-events-none', 'opacity-50');
     });
 
@@ -306,12 +366,14 @@ describe('Button asChild Prop Functionality', () => {
           <view className="disabled-element" bindtap={mockChildClick}>
             <text>Disabled Clickable Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const disabledElement = container.querySelector('view[class*="inline-flex"]');
+
+      const disabledElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       fireEvent.click(disabledElement!);
-      
+
       // In Lynx, disabled elements should not trigger events
       expect(mockChildClick).not.toHaveBeenCalled();
     });
@@ -322,12 +384,18 @@ describe('Button asChild Prop Functionality', () => {
       const { container } = render(
         <Button asChild>
           <view className="empty-element" bindtap={() => {}} />
-        </Button>
+        </Button>,
       );
-      
-      const emptyElement = container.querySelector('view[class*="inline-flex"]');
+
+      const emptyElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       expect(emptyElement).toBeInTheDocument();
-      expect(emptyElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
+      expect(emptyElement).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
     });
 
     it('should handle child elements without bindtap', () => {
@@ -336,12 +404,18 @@ describe('Button asChild Prop Functionality', () => {
           <view className="no-tap-element">
             <text>No Tap Element</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const noTapElement = container.querySelector('view[class*="inline-flex"]');
+
+      const noTapElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       expect(noTapElement).toBeInTheDocument();
-      expect(noTapElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
+      expect(noTapElement).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
     });
 
     it('should handle child elements with conflicting classes', () => {
@@ -350,10 +424,12 @@ describe('Button asChild Prop Functionality', () => {
           <view className="child-class conflicting-class" bindtap={() => {}}>
             <text>Conflicting Classes</text>
           </view>
-        </Button>
+        </Button>,
       );
-      
-      const wrapperElement = container.querySelector('view[class*="inline-flex"]');
+
+      const wrapperElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
       expect(wrapperElement).toHaveClass('button-class');
     });
 
@@ -370,16 +446,28 @@ describe('Button asChild Prop Functionality', () => {
               <text>Second</text>
             </view>
           </Button>
-        </view>
+        </view>,
       );
-      
-      const firstElement = container.querySelector('view[class*="inline-flex"]');
-      const secondElement = container.querySelectorAll('view[class*="inline-flex"]')[1];
-      
+
+      const firstElement = container.querySelector(
+        'view[class*="inline-flex"]',
+      );
+      const secondElement = container.querySelectorAll(
+        'view[class*="inline-flex"]',
+      )[1];
+
       expect(firstElement).toBeInTheDocument();
       expect(secondElement).toBeInTheDocument();
-      expect(firstElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
-      expect(secondElement).toHaveClass('inline-flex', 'items-center', 'justify-center');
+      expect(firstElement).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
+      expect(secondElement).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'justify-center',
+      );
     });
   });
 
@@ -392,14 +480,20 @@ describe('Button asChild Prop Functionality', () => {
           </view>
         </Button>
       ));
-      
+
       const { container } = render(<view>{buttons}</view>);
-      
-      const buttonElements = container.querySelectorAll('view[class*="inline-flex"]');
+
+      const buttonElements = container.querySelectorAll(
+        'view[class*="inline-flex"]',
+      );
       expect(buttonElements).toHaveLength(100);
-      
-      buttonElements.forEach(element => {
-        expect(element).toHaveClass('inline-flex', 'items-center', 'justify-center');
+
+      buttonElements.forEach((element) => {
+        expect(element).toHaveClass(
+          'inline-flex',
+          'items-center',
+          'justify-center',
+        );
       });
     });
   });
